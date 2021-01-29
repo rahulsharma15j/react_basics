@@ -1,23 +1,97 @@
 "use strict";
 
-// arguments object - no longer bound with arrow functions
+console.log("App.js is running!");
 
-var add = function add(a, b) {
-  //console.log(arguments);
-  return a + b;
+//JSX - JavaScript XML
+var app = {
+  title: "Some title",
+  subtitle: "This is my subtitle",
+  options: ["One", "Two"]
 };
 
-console.log(add(55, 1, 100));
+var template = React.createElement(
+  "div",
+  null,
+  React.createElement(
+    "h1",
+    null,
+    app.title
+  ),
+  app.subtitle && React.createElement(
+    "p",
+    null,
+    app.subtitle
+  ),
+  React.createElement(
+    "p",
+    null,
+    app.options.length > 0 ? "Here are your options" : "No options"
+  ),
+  React.createElement(
+    "ol",
+    null,
+    React.createElement(
+      "li",
+      null,
+      "Item one"
+    ),
+    React.createElement(
+      "li",
+      null,
+      "Item two"
+    )
+  )
+);
 
-// this keyword - no longer bound
+var count = 0;
 
-var user = {
-  name: "Andrew",
-  cities: ["Philadelphia", "New York", "Dublin"],
-  printPlacesLived: function printPlacesLived() {
-    console.log(this.name);
-    console.log(this.cities);
-  }
+var addOne = function addOne() {
+  count++;
+  renderCounterApp();
 };
 
-user.printPlacesLived();
+var minusOne = function minusOne() {
+  count--;
+  renderCounterApp();
+};
+
+var reset = function reset() {
+  count = 0;
+  renderCounterApp();
+};
+
+// console.log(templateTwo);
+
+var appRoot = document.getElementById("app");
+
+var renderCounterApp = function renderCounterApp() {
+  var templateTwo = React.createElement(
+    "div",
+    null,
+    React.createElement(
+      "h1",
+      null,
+      "Count:",
+      count
+    ),
+    React.createElement(
+      "button",
+      { onClick: addOne },
+      "+1"
+    ),
+    React.createElement(
+      "button",
+      { onClick: minusOne },
+      "-1"
+    ),
+    React.createElement(
+      "button",
+      { onClick: reset },
+      "reset"
+    )
+  );
+
+  ReactDOM.render(templateTwo, appRoot);
+};
+
+renderCounterApp();
