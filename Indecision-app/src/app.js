@@ -4,53 +4,55 @@ console.log("App.js is running!");
 const app = {
   title: "Some title",
   subtitle: "This is my subtitle",
-  options: ["One", "Two"],
+  options: [],
 };
 
-const template = (
-  <div>
-    <h1>{app.title}</h1>
-    {app.subtitle && <p>{app.subtitle}</p>}
-    <p>{app.options.length > 0 ? "Here are your options" : "No options"}</p>
-    <ol>
-      <li>Item one</li>
-      <li>Item two</li>
-    </ol>
-  </div>
-);
+const onFormSubmit = (e) => {
+  e.preventDefault();
 
-let count = 0;
+  const option = e.target.elements.option.value;
 
-const addOne = () => {
-  count++;
-  renderCounterApp();
+  if (option) {
+    app.options.push(option);
+    e.target.elements.option.value = "";
+    render();
+  }
 };
 
-const minusOne = () => {
-  count--;
-  renderCounterApp();
+const onRemoveAll = () => {
+  app.options = [];
+  render();
 };
 
-const reset = () => {
-  count = 0;
-  renderCounterApp();
-};
-
-// console.log(templateTwo);
+//create "Remove All" button abobe list
+//on click -> wipe the array -> rerender
 
 const appRoot = document.getElementById("app");
 
-const renderCounterApp = () => {
-  const templateTwo = (
+const render = () => {
+  const template = (
     <div>
-      <h1>Count:{count}</h1>
-      <button onClick={addOne}>+1</button>
-      <button onClick={minusOne}>-1</button>
-      <button onClick={reset}>reset</button>
+      <h1>{app.title}</h1>
+      {app.subtitle && <p>{app.subtitle}</p>}
+      <p>{app.options.length > 0 ? "Here are your options" : "No options"}</p>
+      <p>{app.options.length}</p>
+      <button onClick={onRemoveAll}>Remove All</button>
+      <ol>
+        <li>Item one</li>
+        <li>Item two</li>
+      </ol>
+      <form onSubmit={onFormSubmit}>
+        <input type="text" name="option" />
+        <button>Add Option</button>
+      </form>
     </div>
   );
 
-  ReactDOM.render(templateTwo, appRoot);
+  ReactDOM.render(template, appRoot);
 };
 
-renderCounterApp();
+render();
+
+//Create render function that renders the new jsx
+//Call it right away
+//Call it after options array is added too
