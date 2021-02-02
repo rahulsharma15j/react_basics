@@ -1,95 +1,38 @@
 "use strict";
 
-console.log("App.js is running!");
+var visibility = false;
 
-//JSX - JavaScript XML
-var app = {
-  title: "Some title",
-  subtitle: "This is my subtitle",
-  options: []
-};
-
-var onFormSubmit = function onFormSubmit(e) {
-  e.preventDefault();
-
-  var option = e.target.elements.option.value;
-
-  if (option) {
-    app.options.push(option);
-    e.target.elements.option.value = "";
-    render();
-  }
-};
-
-var onRemoveAll = function onRemoveAll() {
-  app.options = [];
+var toggleVisibility = function toggleVisibility() {
+  visibility = !visibility;
   render();
 };
 
-//create "Remove All" button abobe list
-//on click -> wipe the array -> rerender
-
-var appRoot = document.getElementById("app");
-
-var numbers = [55, 101, 1000];
-
 var render = function render() {
-  var template = React.createElement(
+  var jsx = React.createElement(
     "div",
     null,
     React.createElement(
       "h1",
       null,
-      app.title
-    ),
-    app.subtitle && React.createElement(
-      "p",
-      null,
-      app.subtitle
-    ),
-    React.createElement(
-      "p",
-      null,
-      app.options.length > 0 ? "Here are your options" : "No options"
-    ),
-    React.createElement(
-      "p",
-      null,
-      app.options.length
+      "Visibility Toggle"
     ),
     React.createElement(
       "button",
-      { onClick: onRemoveAll },
-      "Remove All"
+      { onClick: toggleVisibility },
+      visibility ? "Hide details" : "Show details"
     ),
-    React.createElement(
-      "ol",
+    visibility && React.createElement(
+      "div",
       null,
-      app.options.map(function (option) {
-        return React.createElement(
-          "li",
-          { key: option },
-          option
-        );
-      })
-    ),
-    React.createElement(
-      "form",
-      { onSubmit: onFormSubmit },
-      React.createElement("input", { type: "text", name: "option" }),
       React.createElement(
-        "button",
+        "p",
         null,
-        "Add Option"
+        "Hey. These are some details you can now see!"
       )
     )
   );
 
-  ReactDOM.render(template, appRoot);
+  ReactDOM.render(jsx, document.getElementById("app"));
 };
 
 render();
-
-//Create render function that renders the new jsx
-//Call it right away
-//Call it after options array is added too
