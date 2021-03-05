@@ -6,7 +6,7 @@ class IndecisionApp extends React.Component {
     this.handleAddOption = this.handleAddOption.bind(this);
     this.handleDeleteOption = this.handleDeleteOption.bind(this);
     this.state = {
-      options: props.options,
+      options: [],
     };
   }
 
@@ -15,7 +15,10 @@ class IndecisionApp extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("componentDidUpdate!");
+    if (prevState.options.length !== this.state.options.length) {
+      const json = JSON.stringify(this.state.options);
+      localStorage.setItem("options", json);
+    }
   }
 
   componentWillUnmount() {
@@ -158,9 +161,5 @@ class AddOption extends React.Component {
     );
   }
 }
-
-IndecisionApp.defaultProps = {
-  options: [],
-};
 
 ReactDOM.render(<IndecisionApp />, document.getElementById("app"));
